@@ -36,6 +36,12 @@ paths:
                   value:
                     success: true
                     token: 2c3f70d0-4c42-4346-90a8-7d5849a2a34a
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       requestBody:
         content:
           application/json:
@@ -108,6 +114,12 @@ paths:
                       gender: M
                       direct_line: '22223334'
                       avatar_url: null
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       operationId: get-user-profile
       requestBody:
         content:
@@ -128,9 +140,45 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
       description: "Edit user's profile"
       tags:
         - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                staff_id:
+                  type: string
+                gender:
+                  type: string
+                email:
+                  type: string
+                tel:
+                  type: string
+                direct_line:
+                  type: string
+                department:
+                  type: string
+                avatar_url:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  staff_id: '123456'
+                  gender: M
+                  email: hugocheung@instajs.com
+                  tel: '66667777'
+                  direct_line: '22223334'
+                  department: Department 1
   /sop/current:
     get:
       summary: Your GET endpoint
@@ -143,6 +191,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       operationId: get-sop-current
       parameters:
         - schema:
@@ -169,6 +223,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       description: "Proceed the sop according to user's response, mainly from clicking buttons / replying text(numbers) / sending attachments / picking date /"
       tags:
         - Sop
@@ -197,6 +257,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       operationId: get-sop-sop_type-current
       description: Triggered to call this api when the 3 sop buttons are pressed / the greeting message are pressed
       parameters:
@@ -243,6 +309,12 @@ paths:
                               type: string
                             create_by:
                               type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
       operationId: get-user-chatHistory
       parameters:
         - schema:
@@ -250,6 +322,16 @@ paths:
           in: header
           name: token
           description: login token
+        - schema:
+            type: string
+          in: query
+          name: page_size
+          description: 'Number of records returning, default 100'
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: page offset
       description: "Retrieving user's chat history. Should be called every time user lauching the app."
 components:
   schemas:
@@ -318,3 +400,11 @@ components:
                 button: View
                 url: 'https://docs.google.com/spreadsheets/d/1X1GZ0rsg1qGRhTEQDcaI5R1VwAhIMiMjfp9drMr72sY/edit'
                 next: 'null'
+    basic_error_response:
+      title: basic_error_response
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
