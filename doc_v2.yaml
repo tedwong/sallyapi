@@ -223,6 +223,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      start: true
+                      sop_type: petty_cash
+                      message:
+                        - type: text
+                          content: 需要處理Travelling Expense Summary Report嗎?
+                      action:
+                        - id: travelling_expense_summary_handle_y
+                          property_id: travelling_expense_summary_handle
+                          type: button
+                          title: 需要
+                          value: 需要
+                          next: pc30
+                        - id: travelling_expense_summary_handle_n
+                          property_id: travelling_expense_summary_handle
+                          type: button
+                          title: 不需要
+                          value: 不需要
+                          next: ''
+                      id: pc25
+                example-2:
+                  value:
+                    success: true
+                    data:
+                      sop_type: petty_cash
+                      message:
+                        - type: text
+                          content: 現在先處理Travelling Expense Summary Report
+                        - type: text
+                          content: 請確認表格上的Applied By及Approved by欄上已有簽名
+                      action:
+                        - id: travelling_expense_summary_signature
+                          property_id: travelling_expense_summary_signature
+                          type: button
+                          title: 已有簽名
+                          value: 已有簽名
+                          next: pc40
+                      id: pc30
         '400':
           description: Bad Request
           content:
@@ -239,6 +281,39 @@ paths:
           name: token
           required: true
           description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                step_id:
+                  type: string
+                action_id:
+                  type: string
+                property_id:
+                  type: string
+                value:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  step_id: pc25
+                  action_id: start_petty_cash
+                  property_id: start_petty_cash
+                  value: 申請零用現金流程
+              example-2:
+                value:
+                  step_id: pc30
+                  action_id: travelling_expense_summary_handle_y
+                  property_id: travelling_expense_summary_handle
+                  value: 需要
+              example-po:
+                value:
+                  step_id: po30
+                  action_id: start_po
+                  property_id: start_po
+                  value: 開始每月訂購流程
   '/sop/{sop_type}/current':
     parameters:
       - schema:
@@ -309,6 +384,99 @@ paths:
                               type: string
                             create_by:
                               type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      total_length: 124
+                      page_size: 50
+                      page: 2
+                      history:
+                        - content: 請選擇需要修改的項目
+                          chat_type: text
+                          create_date: '2020-05-21 19:05:27'
+                          create_by: bot
+                        - content: 請選擇需要修改的項目
+                          chat_type: text
+                          create_date: '2020-05-21 19:01:09'
+                          create_by: bot
+                        - content: 我需要修改
+                          chat_type: text
+                          create_date: '2020-05-21 19:01:09'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 確認寫到report?
+                          chat_type: text
+                          create_date: '2020-05-21 19:00:47'
+                          create_by: bot
+                        - content: '你已填寫travel expense的項目: Travelling Expense Summary <br>日期: {{travelling_expense_summary_date}}<br>金額: {{travelling_expense_summary_amount}}'
+                          chat_type: text
+                          create_date: '2020-05-21 19:00:47'
+                          create_by: bot
+                        - content: 確認寫到report?
+                          chat_type: text
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: bot
+                        - content: '你已填寫travel expense的項目: Travelling Expense Summary <br>日期: 2020-05-21<br>金額: 500'
+                          chat_type: text
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: bot
+                        - content: travelling_expense_summary_report_file_id
+                          chat_type: attachment
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請上傳本月份的Travelling Expense Summary Report
+                          chat_type: text
+                          create_date: '2020-05-21 18:58:16'
+                          create_by: bot
+                        - content: '500'
+                          chat_type: text
+                          create_date: '2020-05-21 18:58:16'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: Travelling Expense Summary的費用金額是
+                          chat_type: text
+                          create_date: '2020-05-21 18:55:00'
+                          create_by: bot
+                        - content: '2020-05-21'
+                          chat_type: text
+                          create_date: '2020-05-21 18:55:00'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: Travelling Expense Summary的日期是?
+                          chat_type: text
+                          create_date: '2020-05-21 18:54:35'
+                          create_by: bot
+                        - content: 已有簽名
+                          chat_type: text
+                          create_date: '2020-05-21 18:54:35'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請確認表格上的Applied By及Approved by欄上已有簽名
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: bot
+                        - content: 現在先處理Travelling Expense Summary Report
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: bot
+                        - content: 需要
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 需要處理Travelling Expense Summary Report嗎?
+                          chat_type: text
+                          create_date: '2020-05-21 18:46:09'
+                          create_by: bot
+                        - content: 申請零用現金流程
+                          chat_type: text
+                          create_date: '2020-05-21 18:46:09'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-21 18:40:50'
+                          create_by: bot
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-21 18:40:32'
+                          create_by: bot
         '400':
           description: Bad Request
           content:
@@ -338,6 +506,25 @@ components:
     sop_response:
       title: sop_response
       type: object
+      x-examples:
+        example-1:
+          success: true
+          data:
+            sop_type: petty_cash
+            end: true
+            message:
+              - type: text
+                content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+            action:
+              - id: view_petty_cash_report
+                property_id: view_petty_cash_report
+                type: cart
+                image: 'https://.'
+                title: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+                desc: ''
+                button: View
+                url: 'https://docs.google.com/spreadsheets/d/1X1GZ0rsg1qGRhTEQDcaI5R1VwAhIMiMjfp9drMr72sY/edit'
+                next: 'null'
       properties:
         success:
           type: string
@@ -381,25 +568,10 @@ components:
                   - property_id
                   - type
                   - next
-      x-examples:
-        example-1:
-          success: true
-          data:
-            sop_type: petty_cash
-            end: true
-            message:
-              - type: text
-                content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
-            action:
-              - id: view_petty_cash_report
-                property_id: view_petty_cash_report
-                type: cart
-                image: 'https://.'
-                title: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
-                desc: ''
-                button: View
-                url: 'https://docs.google.com/spreadsheets/d/1X1GZ0rsg1qGRhTEQDcaI5R1VwAhIMiMjfp9drMr72sY/edit'
-                next: 'null'
+            '':
+              type: string
+            end:
+              type: boolean
     basic_error_response:
       title: basic_error_response
       type: object
