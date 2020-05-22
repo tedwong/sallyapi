@@ -17,11 +17,8 @@
     "description" : "Find out more about Swagger",
     "url" : "http://swagger.io"
   },
-  "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/i6337/demo_3.0/1.0.0",
-    "description" : "SwaggerHub API Auto Mocking"
-  }, {
-    "url" : "https://sallyapi.instajs.com/api",
+  "servers" : [{
+    "url" : "https://sallyapi.ijs.network:8080/api",
     "description" : "Development endpoint (part of them are responsing hard-coded data)"
   } ],
   "paths" : {
