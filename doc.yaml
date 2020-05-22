@@ -18,7 +18,7 @@
     "url" : "http://swagger.io"
   },
   "servers" : [{
-    "url" : "https://sallyapi.ijs.network:8080/api",
+    "url" : "http://sallyapi.ijs.network:8080/api",
     "description" : "Development endpoint (part of them are responsing hard-coded data)"
   } ],
   "paths" : {
