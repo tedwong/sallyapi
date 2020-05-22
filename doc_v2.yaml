@@ -3,7 +3,7 @@ tags:
   - name: User
     description: 'Get User profile, login'
   - name: Sop
-    description: 'The main bot engine logic'
+    description: The main bot engine logic
 info:
   title: doc2
   version: '1.0'
@@ -57,6 +57,13 @@ paths:
       description: User login (mobile/ web)
       tags:
         - User
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+          required: true
   /user/profile:
     get:
       summary: Your GET endpoint
@@ -165,6 +172,13 @@ paths:
       description: "Proceed the sop according to user's response, mainly from clicking buttons / replying text(numbers) / sending attachments / picking date /"
       tags:
         - Sop
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          required: true
+          description: login token
   '/sop/{sop_type}/current':
     parameters:
       - schema:
@@ -185,6 +199,58 @@ paths:
                 $ref: '#/components/schemas/sop_response'
       operationId: get-sop-sop_type-current
       description: Triggered to call this api when the 3 sop buttons are pressed / the greeting message are pressed
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          required: true
+          description: login token
+  /user/chatHistory:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      total_length:
+                        type: number
+                      page_size:
+                        type: number
+                      page:
+                        type: number
+                      history:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            content:
+                              type: string
+                            chat_type:
+                              type: string
+                            create_date:
+                              type: string
+                            create_by:
+                              type: string
+      operationId: get-user-chatHistory
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      description: "Retrieving user's chat history. Should be called every time user lauching the app."
 components:
   schemas:
     sop_response:
