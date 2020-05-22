@@ -1,1597 +1,1285 @@
-{
-  "openapi" : "3.0.0",
-  "info" : {
-    "title" : "Asia bot api",
-    "description" : "Api doc for Asia bot. Normally except for login api, the rest of the apis require login token in the header. The tokens for mobile and admin panel are not the same.\nThe error responses in this doc is not the main focus.\n",
-    "termsOfService" : "http://swagger.io/terms/",
-    "contact" : {
-      "email" : "hugocheung@instajs.com"
-    },
-    "license" : {
-      "name" : "Apache 2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version" : "1.0.0"
-  },
-  "externalDocs" : {
-    "description" : "Find out more about Swagger",
-    "url" : "http://swagger.io"
-  },
-  "servers" : [{
-    "url" : "http://sallyapi.ijs.network:8080/api",
-    "description" : "Development endpoint (part of them are responsing hard-coded data)"
-  } ],
-  "paths" : {
-    "/file/uploadToken" : {
-      "get" : {
-        "tags" : [ "file" ],
-        "summary" : "Retrieve token for uploading file to the s3 server",
-        "operationId" : "getFileUploadToken",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/file/ReportUrl" : {
-      "get" : {
-        "tags" : [ "file" ],
-        "summary" : "Retrieve all uploaded reports url (with query params)",
-        "operationId" : "getAllReportUrl",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "page_size",
-          "in" : "query",
-          "description" : "number of records to be returned per each page",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "page",
-          "in" : "query",
-          "description" : "the page of data to be fetched (index starts from 0)",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "report_type",
-          "in" : "query",
-          "description" : "the type of the reports to be fetched",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "petty_cash", "po", "ehr" ]
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_1"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/form/{shop_id}/{year}/{month}" : {
-      "get" : {
-        "tags" : [ "form" ],
-        "summary" : "Get non-filled google form link for purchase order",
-        "description" : "(maybe) use id 9999 for the main form",
-        "operationId" : "getPoForm",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "shop_id",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "year",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "month",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "integer"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PoFormResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/shop/info" : {
-      "get" : {
-        "tags" : [ "shop" ],
-        "summary" : "Returns all shops, for web admin panel",
-        "operationId" : "getAllShops",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "guid",
-          "in" : "query",
-          "description" : "shop's primary key",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "district",
-          "in" : "query",
-          "description" : "shop's located district",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AllShopResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/shop/info/{id}" : {
-      "get" : {
-        "tags" : [ "shop" ],
-        "summary" : "Get shop by id",
-        "operationId" : "getShopById",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "the id of the shop to be fetched",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ShopByIdResponse"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid shop"
-          }
-        },
-        "deprecated" : true
-      }
-    },
-    "/shop/{shop_id}/{year}/{month}/assignDuty" : {
-      "post" : {
-        "tags" : [ "shop" ],
-        "summary" : "Assign Doctor duty",
-        "operationId" : "assginDuty",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "shop_id",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "year",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "month",
-          "in" : "path",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "integer"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "Doctors that to be assigned to the shop",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/AssignRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResponseAbstract"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid Order"
-          }
-        }
-      }
-    },
-    "/doctor/info" : {
-      "get" : {
-        "tags" : [ "doctor" ],
-        "summary" : "Get all doctors or get doctor by id",
-        "description" : "Please refer to the schema",
-        "operationId" : "getDoctor",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "query",
-          "description" : "id of doctor that want to be fetched",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_2"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/profile" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Get user's own personal information (for mobile users)",
-        "operationId" : "getUserProfile",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/info" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Get all users, only web admin panel can call this api",
-        "operationId" : "getAllUsers",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "query",
-          "description" : "id of user that want to be fetched",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AllUsers"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Create user (will be provided in an api config page)",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "createUser",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token (web admin)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "Create user request object",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/CreateUser"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "operation successful",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResponseAbstract"
-                }
-              }
-            }
-          }
-        },
-        "deprecated" : true
-      },
-      "patch" : {
-        "tags" : [ "user" ],
-        "summary" : "Update user",
-        "description" : "This can only be done by the logged in user, all of them are optional parameters",
-        "operationId" : "updateUser",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UpdateUser"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "operation successful",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResponseAbstract"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid user supplied"
-          },
-          "404" : {
-            "description" : "User not found"
-          }
-        }
-      }
-    },
-    "/user/info/{id}" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "get user by id (for web admin panel)",
-        "operationId" : "getUserById",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "id of user that want to be fetched",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AllUsers"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "user" ],
-        "summary" : "Delete user",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "deleteUser",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The name that needs to be deleted",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "400" : {
-            "description" : "Invalid username supplied"
-          },
-          "404" : {
-            "description" : "User not found"
-          }
-        },
-        "deprecated" : true
-      }
-    },
-    "/user/createWithArray" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Creates list of users with given input array",
-        "operationId" : "createUsersWithArrayInput",
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/UserArray"
-        },
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        },
-        "deprecated" : true
-      }
-    },
-    "/user/createWithList" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Creates list of users with given input array",
-        "operationId" : "createUsersWithListInput",
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/UserArray"
-        },
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        },
-        "deprecated" : true
-      }
-    },
-    "/user/login" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs user into the system",
-        "operationId" : "loginUser",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/LoginRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/resetPassword" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Reset user password",
-        "description" : "This can be done without login token",
-        "operationId" : "resetUserPassword",
-        "requestBody" : {
-          "description" : "Reset password object",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ResetPassword"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "operation successful",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResponseAbstract"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/logout" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs out current logged in user session",
-        "operationId" : "logoutUser",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ResponseAbstract"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/task" : {
-      "get" : {
-        "tags" : [ "task" ],
-        "summary" : "get the user's task by task_type and/or by status",
-        "operationId" : "getCurrentTasks",
-        "parameters" : [ {
-          "name" : "task_type",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "status",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/TaskResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/notification" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "get the messages in user's notification box",
-        "operationId" : "getNotifications",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/NotificationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/chatHistory" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "get user chat history (order by create_time desc)",
-        "operationId" : "getChatHistory",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "page_size",
-          "in" : "query",
-          "description" : "number of records to be returned per each page",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "page",
-          "in" : "query",
-          "description" : "the page of data to be fetched",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "chat_type",
-          "in" : "query",
-          "description" : "the chat type of the history to be fetched",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_3"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "save user chat history",
-        "operationId" : "postChatHistory",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/PostChatHistoryRequest"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_3"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/task/submit" : {
-      "post" : {
-        "tags" : [ "task" ],
-        "summary" : "Submit a task (reply to a question)",
-        "operationId" : "task",
-        "parameters" : [ {
-          "name" : "token",
-          "in" : "header",
-          "description" : "login token",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "chat information like user, content, task",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/AnswerTaskRequest"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AnswerTaskResponse"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid task"
-          }
-        }
-      }
-    }
-  },
-  "components" : {
-    "schemas" : {
-      "LoginRequest" : {
-        "type" : "object",
-        "properties" : {
-          "user_name" : {
-            "type" : "string",
-            "example" : "demoUser"
-          },
-          "password" : {
-            "type" : "string",
-            "format" : "password",
-            "example" : "123456"
-          },
-          "device_id" : {
-            "type" : "string"
-          }
-        }
-      },
-      "LoginResponse" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "data" : {
-              "$ref" : "#/components/schemas/LoginResponse_data"
-            }
-          }
-        } ]
-      },
-      "AnswerTaskRequest" : {
-        "required" : [ "display_text", "input_type", "question_id", "task_date", "task_month", "task_type", "task_year" ],
-        "type" : "object",
-        "properties" : {
-          "question_id" : {
-            "type" : "string"
-          },
-          "task_type" : {
-            "type" : "integer"
-          },
-          "input_type" : {
-            "type" : "string",
-            "enum" : [ "text", "number", "date", "fil" ]
-          },
-          "semantic_value" : {
-            "type" : "string"
-          },
-          "display_text" : {
-            "type" : "string",
-            "description" : "the text that the user enters"
-          },
-          "file_url" : {
-            "type" : "string"
-          },
-          "file_type" : {
-            "type" : "string",
-            "description" : "client side defined field, for sorting the file type(e.g. HCV, IVSS,CRC)"
-          },
-          "task_date" : {
-            "type" : "integer",
-            "example" : 1
-          },
-          "task_month" : {
-            "type" : "integer",
-            "example" : 2
-          },
-          "task_year" : {
-            "type" : "integer",
-            "example" : 2020
-          }
-        }
-      },
-      "AnswerTaskResponse" : {
-        "type" : "object",
-        "properties" : {
-          "next_question_id" : {
-            "type" : "string"
-          },
-          "task_type" : {
-            "type" : "string"
-          },
-          "desc" : {
-            "type" : "string"
-          },
-          "semantic_value" : {
-            "type" : "string"
-          },
-          "input_type" : {
-            "type" : "string",
-            "enum" : [ "text", "number", "date", "file" ]
-          }
-        }
-      },
-      "TaskDetail" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/TaskDetail_inner"
-        }
-      },
-      "ResponseAbstract" : {
-        "type" : "object",
-        "properties" : {
-          "success" : {
-            "type" : "boolean"
-          },
-          "message" : {
-            "type" : "string"
-          }
-        }
-      },
-      "TaskResponse" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "data" : {
-              "$ref" : "#/components/schemas/TaskDetail"
-            }
-          }
-        } ]
-      },
-      "NotificationResponse" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "data" : {
-              "$ref" : "#/components/schemas/NotificationAbstract"
-            }
-          }
-        } ]
-      },
-      "NotificationAbstract" : {
-        "type" : "object",
-        "properties" : {
-          "message_en" : {
-            "type" : "string"
-          },
-          "message_hk" : {
-            "type" : "string"
-          },
-          "notify_time" : {
-            "type" : "string",
-            "description" : "the time of the message being pushed to user",
-            "example" : "04-24-2020 07:35:37"
-          },
-          "task_id" : {
-            "type" : "string",
-            "description" : "to help decide how to reply (calling which api) to this message",
-            "example" : "tast_id_1"
-          },
-          "task_type" : {
-            "type" : "string",
-            "description" : "to determine front end icon in the notification box",
-            "example" : "0",
-            "enum" : [ "petty_cash", "po", "ehr" ]
-          }
-        }
-      },
-      "AllShopResponse" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/ShopByIdResponse"
-        }
-      },
-      "ShopByIdResponse" : {
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "shop_code" : {
-            "type" : "string"
-          },
-          "address" : {
-            "type" : "string"
-          },
-          "tel" : {
-            "type" : "string"
-          },
-          "picId" : {
-            "type" : "string"
-          }
-        }
-      },
-      "PoFormResponse" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "data" : {
-              "$ref" : "#/components/schemas/PoFormResponse_data"
-            }
-          }
-        } ]
-      },
-      "AllUsers" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/User"
-        }
-      },
-      "User" : {
-        "type" : "object",
-        "properties" : {
-          "staff_id" : {
-            "type" : "string"
-          },
-          "full_name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "tel" : {
-            "type" : "string",
-            "example" : "66667777"
-          },
-          "gender" : {
-            "type" : "string",
-            "enum" : [ "F", "M" ]
-          },
-          "direct_line" : {
-            "type" : "string",
-            "example" : "22223333"
-          },
-          "department" : {
-            "type" : "string"
-          },
-          "avatar_url" : {
-            "type" : "string"
-          }
-        },
-        "xml" : {
-          "name" : "User"
-        }
-      },
-      "Doctor" : {
-        "type" : "object",
-        "properties" : {
-          "doctor_code" : {
-            "type" : "string"
-          },
-          "full_name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "tel" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string"
-          }
-        },
-        "xml" : {
-          "name" : "Doctor"
-        }
-      },
-      "AllDoctors" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/Doctor"
-        }
-      },
-      "GetAllReportUrlResponse" : {
-        "type" : "object",
-        "properties" : {
-          "total_length" : {
-            "type" : "integer",
-            "description" : "total number of records",
-            "example" : 21
-          },
-          "page_size" : {
-            "type" : "integer",
-            "description" : "the number of records returned per each page",
-            "example" : 20
-          },
-          "page" : {
-            "type" : "integer",
-            "description" : "the page of the message records returned",
-            "example" : 1
-          },
-          "reports" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/GetAllReportUrlResponse_reports"
-            }
-          }
-        }
-      },
-      "PostChatHistoryRequest" : {
-        "required" : [ "chat_type", "content", "from" ],
-        "type" : "object",
-        "properties" : {
-          "chat_type" : {
-            "type" : "string",
-            "description" : "client-side defined type, used for future sorting (e.g. text, image, audio, url, etc)",
-            "enum" : [ "text", "image", "audio" ]
-          },
-          "from_bot" : {
-            "type" : "boolean",
-            "description" : "from user or 'bot'",
-            "example" : true
-          },
-          "content" : {
-            "type" : "string"
-          }
-        }
-      },
-      "GetChatHistoryResponse" : {
-        "type" : "object",
-        "properties" : {
-          "total_length" : {
-            "type" : "integer",
-            "description" : "total number of records",
-            "example" : 1
-          },
-          "page_size" : {
-            "type" : "integer",
-            "description" : "the number of records returned per each page",
-            "example" : 20
-          },
-          "page" : {
-            "type" : "integer",
-            "description" : "the page of the message records returned",
-            "example" : 0
-          },
-          "history" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/GetChatHistoryResponse_history"
-            }
-          }
-        }
-      },
-      "AssignRequest" : {
-        "type" : "object",
-        "properties" : {
-          "doctors" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "description" : "doctor id",
-              "example" : "[\"doctor_id_1\",\"doctor_id_2\"]"
-            }
-          }
-        }
-      },
-      "CreateUser" : {
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
-          },
-          "tel" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string"
-          },
-          "direct_line" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ResetPassword" : {
-        "type" : "object",
-        "properties" : {
-          "email" : {
-            "type" : "string"
-          },
-          "user_name" : {
-            "type" : "string"
-          }
-        }
-      },
-      "UpdateUser" : {
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "current_password" : {
-            "type" : "string"
-          },
-          "new_password" : {
-            "type" : "string"
-          },
-          "tel" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string"
-          },
-          "direct_line" : {
-            "type" : "string"
-          }
-        }
-      },
-      "inline_response_200" : {
-        "type" : "object",
-        "properties" : {
-          "token" : {
-            "type" : "string"
-          }
-        },
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        } ]
-      },
-      "inline_response_200_1" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "data" : {
-              "$ref" : "#/components/schemas/GetAllReportUrlResponse"
-            }
-          }
-        } ]
-      },
-      "inline_response_200_2" : {
-        "oneOf" : [ {
-          "$ref" : "#/components/schemas/Doctor"
-        }, {
-          "$ref" : "#/components/schemas/AllDoctors"
-        } ]
-      },
-      "inline_response_200_3" : {
-        "properties" : {
-          "data" : {
-            "$ref" : "#/components/schemas/GetChatHistoryResponse"
-          }
-        },
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/ResponseAbstract"
-        }, {
-          "type" : "object"
-        } ]
-      },
-      "LoginResponse_data" : {
-        "type" : "object",
-        "properties" : {
-          "token" : {
-            "type" : "string",
-            "example" : "6d960c30-4279-48eb-831f-96db450060cc"
-          },
-          "expiry_time" : {
-            "type" : "string",
-            "example" : "04-24-2020 07:35:37"
-          }
-        }
-      },
-      "TaskDetail_inner" : {
-        "type" : "object",
-        "properties" : {
-          "question_id" : {
-            "type" : "string"
-          },
-          "task_type" : {
-            "type" : "integer"
-          },
-          "step_num" : {
-            "type" : "integer",
-            "description" : "for ordering the tasks"
-          },
-          "display_text" : {
-            "type" : "string",
-            "description" : "the reply from the user's input"
-          },
-          "semantic_value" : {
-            "type" : "string"
-          },
-          "desc" : {
-            "type" : "string",
-            "description" : "the question (task description)"
-          },
-          "status" : {
-            "type" : "string",
-            "description" : "submitted = whole task is finished & report is submitted & cannot make any changes",
-            "enum" : [ "draft", "submitted" ]
-          },
-          "input_type" : {
-            "type" : "string",
-            "enum" : [ "text", "number", "date", "file" ]
-          },
-          "file_url" : {
-            "type" : "string",
-            "description" : "the file url uploaded by the client side(if any)"
-          },
-          "file_type" : {
-            "type" : "string",
-            "description" : "front-end-defined type, acts as a param for future retrieve",
-            "example" : "HCV"
-          },
-          "create_time" : {
-            "type" : "string"
-          },
-          "task_date" : {
-            "type" : "integer",
-            "example" : 28
-          },
-          "task_month" : {
-            "type" : "integer",
-            "example" : 4
-          },
-          "task_year" : {
-            "type" : "integer",
-            "example" : 2020
-          }
-        }
-      },
-      "PoFormResponse_data" : {
-        "type" : "object",
-        "properties" : {
-          "form_url" : {
-            "type" : "string"
-          },
-          "form_type" : {
-            "type" : "string",
-            "enum" : [ "templateForm", "mainForm" ]
-          }
-        }
-      },
-      "GetAllReportUrlResponse_reports" : {
-        "type" : "object",
-        "properties" : {
-          "url" : {
-            "type" : "string"
-          },
-          "shop_id" : {
-            "type" : "string",
-            "example" : "shop_id_1"
-          },
-          "report_type" : {
-            "type" : "string"
-          },
-          "status" : {
-            "type" : "string",
-            "example" : "submitted"
-          },
-          "report_date" : {
-            "type" : "integer",
-            "example" : 28
-          },
-          "report_month" : {
-            "type" : "integer",
-            "example" : 4
-          },
-          "report_year" : {
-            "type" : "integer",
-            "example" : 2020
-          },
-          "create_time" : {
-            "type" : "string",
-            "example" : "04-24-2020 07:35:37"
-          },
-          "modify_by" : {
-            "type" : "string"
-          },
-          "modify_date" : {
-            "type" : "string",
-            "example" : "04-24-2020 07:35:38"
-          },
-          "create_by" : {
-            "type" : "string"
-          }
-        }
-      },
-      "GetChatHistoryResponse_history" : {
-        "type" : "object",
-        "properties" : {
-          "create_time" : {
-            "type" : "string",
-            "example" : "04-24-2020 07:35:37"
-          },
-          "content" : {
-            "type" : "string",
-            "example" : "https://the_1st_record.com"
-          },
-          "chat_type" : {
-            "type" : "string",
-            "example" : "url"
-          },
-          "chat_date" : {
-            "type" : "integer",
-            "example" : 28
-          },
-          "chat_month" : {
-            "type" : "integer",
-            "example" : 4
-          },
-          "chat_year" : {
-            "type" : "integer",
-            "example" : 2020
-          }
-        }
-      }
-    },
-    "requestBodies" : {
-      "UserArray" : {
-        "description" : "List of user object",
-        "content" : {
-          "application/json" : {
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "required" : true
-      }
-    },
-    "securitySchemes" : {
-      "petstore_auth" : {
-        "type" : "oauth2",
-        "flows" : {
-          "implicit" : {
-            "authorizationUrl" : "http://petstore.swagger.io/oauth/dialog",
-            "scopes" : {
-              "write:pets" : "modify pets in your account",
-              "read:pets" : "read your pets"
-            }
-          }
-        }
-      },
-      "api_key" : {
-        "type" : "apiKey",
-        "name" : "api_key",
-        "in" : "header"
-      }
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  title: Asia bot api
+  description: |
+    Api doc for Asia bot. Normally except for login api, the rest of the apis require login token in the header. The tokens for mobile and admin panel are not the same.
+    The error responses in this doc is not the main focus.
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: hugocheung@instajs.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: 'http://sallyapi.ijs.network:8080/api'
+    description: Development endpoint (part of them are responsing hard-coded data)
+paths:
+  /file/uploadToken:
+    get:
+      tags:
+        - file
+      summary: Retrieve token for uploading file to the s3 server
+      operationId: getFileUploadToken
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+  /file/ReportUrl:
+    get:
+      tags:
+        - file
+      summary: Retrieve all uploaded reports url (with query params)
+      operationId: getAllReportUrl
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: page_size
+          in: query
+          description: number of records to be returned per each page
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the page of data to be fetched (index starts from 0)
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: report_type
+          in: query
+          description: the type of the reports to be fetched
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            enum:
+              - petty_cash
+              - po
+              - ehr
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+  '/form/{shop_id}/{year}/{month}':
+    get:
+      tags:
+        - form
+      summary: Get non-filled google form link for purchase order
+      description: (maybe) use id 9999 for the main form
+      operationId: getPoForm
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: shop_id
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: month
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoFormResponse'
+  /shop/info:
+    get:
+      tags:
+        - shop
+      summary: 'Returns all shops, for web admin panel'
+      operationId: getAllShops
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: guid
+          in: query
+          description: "shop's primary key"
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: district
+          in: query
+          description: "shop's located district"
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllShopResponse'
+  '/shop/info/{id}':
+    get:
+      tags:
+        - shop
+      summary: Get shop by id
+      operationId: getShopById
+      parameters:
+        - name: id
+          in: path
+          description: the id of the shop to be fetched
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopByIdResponse'
+        '400':
+          description: Invalid shop
+      deprecated: true
+  '/shop/{shop_id}/{year}/{month}/assignDuty':
+    post:
+      tags:
+        - shop
+      summary: Assign Doctor duty
+      operationId: assginDuty
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: shop_id
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: month
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+      requestBody:
+        description: Doctors that to be assigned to the shop
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRequest'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAbstract'
+        '400':
+          description: Invalid Order
+  /doctor/info:
+    get:
+      tags:
+        - doctor
+      summary: Get all doctors or get doctor by id
+      description: Please refer to the schema
+      operationId: getDoctor
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: id of doctor that want to be fetched
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+              examples:
+                example-1: {}
+  /user/profile:
+    get:
+      tags:
+        - user
+      summary: "Get user's own personal information (for mobile users)"
+      operationId: getUserProfile
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /user/info:
+    get:
+      tags:
+        - user
+      summary: 'Get all users, only web admin panel can call this api'
+      operationId: getAllUsers
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: id of user that want to be fetched
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsers'
+    post:
+      tags:
+        - user
+      summary: Create user (will be provided in an api config page)
+      description: By admin
+      operationId: createUser
+      parameters:
+        - name: token
+          in: header
+          description: login token (web admin)
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Create user request object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      responses:
+        '200':
+          description: operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAbstract'
+      deprecated: true
+    patch:
+      tags:
+        - user
+      summary: Update user
+      description: 'This can only be done by the logged in user, all of them are optional parameters'
+      operationId: updateUser
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        '200':
+          description: operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAbstract'
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+  '/user/info/{id}':
+    get:
+      tags:
+        - user
+      summary: get user by id (for web admin panel)
+      operationId: getUserById
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: id of user that want to be fetched
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsers'
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      deprecated: true
+  /user/createWithArray:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      operationId: createUsersWithArrayInput
+      requestBody:
+        $ref: '#/components/requestBodies/UserArray'
+      responses:
+        default:
+          description: successful operation
+      deprecated: true
+  /user/createWithList:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      operationId: createUsersWithListInput
+      requestBody:
+        $ref: '#/components/requestBodies/UserArray'
+      responses:
+        default:
+          description: successful operation
+      deprecated: true
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Logs user into the system
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Invalid username/password supplied
+  /user/resetPassword:
+    post:
+      tags:
+        - user
+      summary: Reset user password
+      description: This can be done without login token
+      operationId: resetUserPassword
+      requestBody:
+        description: Reset password object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+        required: true
+      responses:
+        '200':
+          description: operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAbstract'
+  /user/logout:
+    post:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAbstract'
+  /task:
+    get:
+      tags:
+        - task
+      summary: "get the user's task by task_type and/or by status"
+      operationId: getCurrentTasks
+      parameters:
+        - name: task_type
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+  /user/notification:
+    get:
+      tags:
+        - user
+      summary: "get the messages in user's notification box"
+      operationId: getNotifications
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationResponse'
+  /user/chatHistory:
+    get:
+      tags:
+        - user
+      summary: get user chat history (order by create_time desc)
+      operationId: getChatHistory
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: page_size
+          in: query
+          description: number of records to be returned per each page
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: the page of data to be fetched
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+        - name: chat_type
+          in: query
+          description: the chat type of the history to be fetched
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      total_length: 124
+                      page_size: 50
+                      page: 2
+                      history:
+                        - content: 請選擇需要修改的項目
+                          chat_type: text
+                          create_date: '2020-05-21 19:05:27'
+                          create_by: bot
+                        - content: 請選擇需要修改的項目
+                          chat_type: text
+                          create_date: '2020-05-21 19:01:09'
+                          create_by: bot
+                        - content: 我需要修改
+                          chat_type: text
+                          create_date: '2020-05-21 19:01:09'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 確認寫到report?
+                          chat_type: text
+                          create_date: '2020-05-21 19:00:47'
+                          create_by: bot
+                        - content: '你已填寫travel expense的項目: Travelling Expense Summary <br>日期: {{travelling_expense_summary_date}}<br>金額: {{travelling_expense_summary_amount}}'
+                          chat_type: text
+                          create_date: '2020-05-21 19:00:47'
+                          create_by: bot
+                        - content: 確認寫到report?
+                          chat_type: text
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: bot
+                        - content: '你已填寫travel expense的項目: Travelling Expense Summary <br>日期: 2020-05-21<br>金額: 500'
+                          chat_type: text
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: bot
+                        - content: travelling_expense_summary_report_file_id
+                          chat_type: attachment
+                          create_date: '2020-05-21 18:59:02'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請上傳本月份的Travelling Expense Summary Report
+                          chat_type: text
+                          create_date: '2020-05-21 18:58:16'
+                          create_by: bot
+                        - content: '500'
+                          chat_type: text
+                          create_date: '2020-05-21 18:58:16'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: Travelling Expense Summary的費用金額是
+                          chat_type: text
+                          create_date: '2020-05-21 18:55:00'
+                          create_by: bot
+                        - content: '2020-05-21'
+                          chat_type: text
+                          create_date: '2020-05-21 18:55:00'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: Travelling Expense Summary的日期是?
+                          chat_type: text
+                          create_date: '2020-05-21 18:54:35'
+                          create_by: bot
+                        - content: 已有簽名
+                          chat_type: text
+                          create_date: '2020-05-21 18:54:35'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請確認表格上的Applied By及Approved by欄上已有簽名
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: bot
+                        - content: 現在先處理Travelling Expense Summary Report
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: bot
+                        - content: 需要
+                          chat_type: text
+                          create_date: '2020-05-21 18:50:52'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 需要處理Travelling Expense Summary Report嗎?
+                          chat_type: text
+                          create_date: '2020-05-21 18:46:09'
+                          create_by: bot
+                        - content: 申請零用現金流程
+                          chat_type: text
+                          create_date: '2020-05-21 18:46:09'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-21 18:40:50'
+                          create_by: bot
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-21 18:40:32'
+                          create_by: bot
+  /task/submit:
+    post:
+      tags:
+        - task
+      summary: Submit a task (reply to a question)
+      operationId: task
+      parameters:
+        - name: token
+          in: header
+          description: login token
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: 'chat information like user, content, task'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerTaskRequest'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerTaskResponse'
+        '400':
+          description: Invalid task
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        user_name:
+          type: string
+          example: demoUser
+        password:
+          type: string
+          format: password
+          example: '123456'
+        device_id:
+          type: string
+    LoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/LoginResponse_data'
+      x-examples:
+        example-1:
+          success: true
+          token: 49645ee0-44c6-4658-88d9-9fdbe8d4c9c4
+          dubug_user_id: b725211c-895d-48b9-ba1a-d32ad31337b3
+    AnswerTaskRequest:
+      required:
+        - display_text
+        - input_type
+        - question_id
+        - task_date
+        - task_month
+        - task_type
+        - task_year
+      type: object
+      properties:
+        question_id:
+          type: string
+        task_type:
+          type: integer
+        input_type:
+          type: string
+          enum:
+            - text
+            - number
+            - date
+            - fil
+        semantic_value:
+          type: string
+        display_text:
+          type: string
+          description: the text that the user enters
+        file_url:
+          type: string
+        file_type:
+          type: string
+          description: 'client side defined field, for sorting the file type(e.g. HCV, IVSS,CRC)'
+        task_date:
+          type: integer
+          example: 1
+        task_month:
+          type: integer
+          example: 2
+        task_year:
+          type: integer
+          example: 2020
+    AnswerTaskResponse:
+      type: object
+      properties:
+        next_question_id:
+          type: string
+        task_type:
+          type: string
+        desc:
+          type: string
+        semantic_value:
+          type: string
+        input_type:
+          type: string
+          enum:
+            - text
+            - number
+            - date
+            - file
+    TaskDetail:
+      type: array
+      items:
+        $ref: '#/components/schemas/TaskDetail_inner'
+    ResponseAbstract:
+      allOf:
+        - properties:
+            success:
+              type: boolean
+            message:
+              type: string
+        - properties:
+            data:
+              type:
+                - string
+                - object
+              properties:
+                total_length:
+                  type: number
+                page_size:
+                  type: number
+                history:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                      chat_type:
+                        type: string
+                      create_date:
+                        type: string
+                        format: date-time
+                        example: '"2020-05-21 19:05:27"'
+                      create_by:
+                        type: string
+                        enum:
+                          - bot
+                          - '"${user_guid}"'
+      title: ''
+      description: ''
+      type: object
+    TaskResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/TaskDetail'
+    NotificationResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/NotificationAbstract'
+    NotificationAbstract:
+      type: object
+      properties:
+        message_en:
+          type: string
+        message_hk:
+          type: string
+        notify_time:
+          type: string
+          description: the time of the message being pushed to user
+          example: '04-24-2020 07:35:37'
+        task_id:
+          type: string
+          description: to help decide how to reply (calling which api) to this message
+          example: tast_id_1
+        task_type:
+          type: string
+          description: to determine front end icon in the notification box
+          example: '0'
+          enum:
+            - petty_cash
+            - po
+            - ehr
+    AllShopResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ShopByIdResponse'
+    ShopByIdResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        shop_code:
+          type: string
+        address:
+          type: string
+        tel:
+          type: string
+        picId:
+          type: string
+    PoFormResponse:
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PoFormResponse_data'
+    AllUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    User:
+      type: object
+      properties:
+        staff_id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+        tel:
+          type: string
+          example: '66667777'
+        gender:
+          type: string
+          enum:
+            - F
+            - M
+        direct_line:
+          type: string
+          example: '22223333'
+        department:
+          type: string
+        avatar_url:
+          type: string
+      xml:
+        name: User
+      x-tags:
+        - user
+    Doctor:
+      type: object
+      properties:
+        doctor_code:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+        tel:
+          type: string
+        gender:
+          type: string
+      xml:
+        name: Doctor
+    AllDoctors:
+      type: array
+      items:
+        $ref: '#/components/schemas/Doctor'
+    GetAllReportUrlResponse:
+      type: object
+      properties:
+        total_length:
+          type: integer
+          description: total number of records
+          example: 21
+        page_size:
+          type: integer
+          description: the number of records returned per each page
+          example: 20
+        page:
+          type: integer
+          description: the page of the message records returned
+          example: 1
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetAllReportUrlResponse_reports'
+    PostChatHistoryRequest:
+      required:
+        - chat_type
+        - content
+        - from
+      type: object
+      properties:
+        chat_type:
+          type: string
+          description: 'client-side defined type, used for future sorting (e.g. text, image, audio, url, etc)'
+          enum:
+            - text
+            - image
+            - audio
+        from_bot:
+          type: boolean
+          description: "from user or 'bot'"
+          example: true
+        content:
+          type: string
+    GetChatHistoryResponse:
+      type: object
+      properties:
+        total_length:
+          type: integer
+          description: total number of records
+          example: 1
+        page_size:
+          type: integer
+          description: the number of records returned per each page
+          example: 20
+        page:
+          type: integer
+          description: the page of the message records returned
+          example: 0
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetChatHistoryResponse_history'
+    AssignRequest:
+      type: object
+      properties:
+        doctors:
+          type: array
+          items:
+            type: string
+            description: doctor id
+            example: '["doctor_id_1","doctor_id_2"]'
+    CreateUser:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        tel:
+          type: string
+        gender:
+          type: string
+        direct_line:
+          type: string
+    ResetPassword:
+      type: object
+      properties:
+        email:
+          type: string
+        user_name:
+          type: string
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        current_password:
+          type: string
+        new_password:
+          type: string
+        tel:
+          type: string
+        gender:
+          type: string
+        direct_line:
+          type: string
+    inline_response_200:
+      type: object
+      properties:
+        token:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+    inline_response_200_1:
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/GetAllReportUrlResponse'
+    inline_response_200_2:
+      oneOf:
+        - $ref: '#/components/schemas/Doctor'
+        - $ref: '#/components/schemas/AllDoctors'
+    inline_response_200_3:
+      properties:
+        data:
+          $ref: '#/components/schemas/GetChatHistoryResponse'
+      allOf:
+        - $ref: '#/components/schemas/ResponseAbstract'
+    LoginResponse_data:
+      type: object
+      properties:
+        token:
+          type: string
+          example: 6d960c30-4279-48eb-831f-96db450060cc
+        expiry_time:
+          type: string
+          example: '04-24-2020 07:35:37'
+    TaskDetail_inner:
+      type: object
+      properties:
+        question_id:
+          type: string
+        task_type:
+          type: integer
+        step_num:
+          type: integer
+          description: for ordering the tasks
+        display_text:
+          type: string
+          description: "the reply from the user's input"
+        semantic_value:
+          type: string
+        desc:
+          type: string
+          description: the question (task description)
+        status:
+          type: string
+          description: 'submitted = whole task is finished & report is submitted & cannot make any changes'
+          enum:
+            - draft
+            - submitted
+        input_type:
+          type: string
+          enum:
+            - text
+            - number
+            - date
+            - file
+        file_url:
+          type: string
+          description: the file url uploaded by the client side(if any)
+        file_type:
+          type: string
+          description: 'front-end-defined type, acts as a param for future retrieve'
+          example: HCV
+        create_time:
+          type: string
+        task_date:
+          type: integer
+          example: 28
+        task_month:
+          type: integer
+          example: 4
+        task_year:
+          type: integer
+          example: 2020
+    PoFormResponse_data:
+      type: object
+      properties:
+        form_url:
+          type: string
+        form_type:
+          type: string
+          enum:
+            - templateForm
+            - mainForm
+    GetAllReportUrlResponse_reports:
+      type: object
+      properties:
+        url:
+          type: string
+        shop_id:
+          type: string
+          example: shop_id_1
+        report_type:
+          type: string
+        status:
+          type: string
+          example: submitted
+        report_date:
+          type: integer
+          example: 28
+        report_month:
+          type: integer
+          example: 4
+        report_year:
+          type: integer
+          example: 2020
+        create_time:
+          type: string
+          example: '04-24-2020 07:35:37'
+        modify_by:
+          type: string
+        modify_date:
+          type: string
+          example: '04-24-2020 07:35:38'
+        create_by:
+          type: string
+    GetChatHistoryResponse_history:
+      type: object
+      properties:
+        create_time:
+          type: string
+          example: '04-24-2020 07:35:37'
+        content:
+          type: string
+          example: 'https://the_1st_record.com'
+        chat_type:
+          type: string
+          example: url
+        chat_date:
+          type: integer
+          example: 28
+        chat_month:
+          type: integer
+          example: 4
+        chat_year:
+          type: integer
+          example: 2020
+  requestBodies:
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      required: true
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
+          scopes:
+            'write:pets': modify pets in your account
+            'read:pets': read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
