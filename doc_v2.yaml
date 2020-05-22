@@ -1,4 +1,3 @@
-
 openapi: 3.0.0
 tags:
   - name: User
@@ -20,6 +19,21 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                    description: 'login token for subsequent api calls, being inserted in the request header'
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    token: 2c3f70d0-4c42-4346-90a8-7d5849a2a34a
       requestBody:
         content:
           application/json:
@@ -32,7 +46,80 @@ paths:
                   type: string
                 device_id:
                   type: string
+            examples:
+              example-1:
+                value:
+                  user_name: invalid user name
+                  password: invalid password
+                  device_id: '123123'
       description: User login (mobile/ web)
+      tags:
+        - User
+  /user/profile:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      staff_id:
+                        type: string
+                      full_name:
+                        type: string
+                      email:
+                        type: string
+                      tel:
+                        type: string
+                      gender:
+                        type: string
+                      direct_line:
+                        type: string
+                      avatar_url:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      staff_id: '123456'
+                      full_name: null
+                      email: hugocheung@instajs.com
+                      tel: '66667777'
+                      gender: M
+                      direct_line: '22223334'
+                      avatar_url: null
+      operationId: get-user-profile
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+          required: true
+      description: "Get user's profile info"
+    patch:
+      summary: ''
+      operationId: patch-user-profile
+      responses:
+        '200':
+          description: OK
+      description: "Edit user's profile"
       tags:
         - User
 components:
