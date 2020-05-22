@@ -1,1 +1,39 @@
 
+openapi: 3.0.0
+tags:
+  - name: User
+    description: 'Get User profile, login'
+info:
+  title: doc2
+  version: '1.0'
+  contact:
+    name: Hugo Cheung
+    email: hugocheung@Instajs.com
+  description: Api documentation mainly for mobile client
+servers:
+  - url: 'http://sallyapi.ijs.network:8080/api'
+paths:
+  /user/login:
+    post:
+      summary: ''
+      operationId: post-user-login
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                password:
+                  type: string
+                device_id:
+                  type: string
+      description: User login (mobile/ web)
+      tags:
+        - User
+components:
+  schemas: {}
