@@ -556,6 +556,147 @@ paths:
           in: header
           name: token
           description: login token
+  /user/profile:
+    post:
+      summary: ''
+      operationId: post-user-profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      description: Create user
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                password:
+                  type: string
+                user_type:
+                  type: string
+                  enum:
+                    - admin
+                    - user
+              required:
+                - user_name
+                - password
+                - user_type
+            examples:
+              example-1:
+                value:
+                  user_name: admin
+                  password: '1'
+                  user_type: admin
+      tags:
+        - user
+  '/shop/{guid}/allReports':
+    parameters:
+      - schema:
+          type: string
+        name: guid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - shop
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      petty_cash:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            report_url:
+                              type: string
+                            sop_month:
+                              type: string
+                            sop_year:
+                              type: string
+                            submit_date:
+                              type: string
+                      po:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            report_url:
+                              type: string
+                            sop_month:
+                              type: string
+                            sop_year:
+                              type: string
+                            submit_date:
+                              type: string
+                      ehr:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            report_url:
+                              type: string
+                            sop_month:
+                              type: string
+                            sop_year:
+                              type: string
+                            submit_date:
+                              type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      pc:
+                        - report_url: 'https://docs.google.com/spreadsheets/d/1X1GZ0rsg1qGRhTEQDcaI5R1VwAhIMiMjfp9drMr72sY/edit'
+                          sop_month: 5
+                          sop_year: 2020
+                          submit_date: '2020-05-22 12:23:37'
+                      po:
+                        - report_url: 'https://docs.google.com/spreadsheets/d/1KdEIAMc2qMe63srWTyykUX6V1CHXqYtM84CL6O2TMFM/edit'
+                          sop_month: 4
+                          sop_year: 2020
+                          submit_date: '2020-05-22 12:42:26'
+                      ehr:
+                        - sop_month: 5
+                          sop_year: 2020
+                          submit_date: null
+                        - sop_month: 4
+                          sop_year: 2020
+                          submit_date: null
+      operationId: get-shop-guid-allReports
+      description: 'Get all reports according to the shop_guid, regardless '
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
 components:
   schemas:
     basic_error_response:
