@@ -1,5 +1,8 @@
 # sallyapi
 
-Doc.yaml: for web admin panel
+doc.yaml: for web admin panel
 
-Doc_v2.yaml: for mobile client
+doc_v2.yaml: for mobile client
+
+Recommend using swagger-viewer to visualise the yaml document with Chrome
+https://chrome.google.com/webstore/detail/swagger-viewer/nfmkaonpdmaglhjjlggfhlndofdldfag
