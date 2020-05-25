@@ -6,6 +6,8 @@ tags:
     description: Retrieving info regarding shops
   - name: user
     description: Retrieveing info regarding users (staff)
+  - name: duty
+    description: Retrieveing info regarding duties of doctors
 info:
   title: Asia bot api
   description: |
@@ -245,6 +247,124 @@ paths:
                 value:
                   code: '700'
                   name: Demo Clinic 700
+  /shop/duty:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - duty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      duties:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            shop_name:
+                              type: string
+                            shop_code:
+                              type: string
+                            district:
+                              type: string
+                            address:
+                              type: string
+                            doctors:
+                              type: array
+                              items:
+                                type: string
+                            modify_by:
+                              type: string
+                            modify_date:
+                              type: string
+      operationId: get-shop-duty
+      description: 'Get duties of all shops of certain month & year'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                duty_month:
+                  type: integer
+                  example: 5
+                duty_year:
+                  type: integer
+                  example: 2020
+              required:
+                - duty_month
+                - duty_year
+            examples:
+              example-1:
+                value:
+                  duty_month: 5
+                  duty_year: 2020
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+    post:
+      summary: ''
+      operationId: post-shop-duty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      tags:
+        - duty
+      description: 'Assign duty for a certain shop for a certain month&year'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: login token
+          description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                doctor_list:
+                  type: array
+                  items:
+                    type: string
+                shop_guid:
+                  type: string
+                duty_month:
+                  type: integer
+                duty_year:
+                  type: integer
+              required:
+                - doctor_list
+                - shop_guid
+                - duty_month
+                - duty_year
+            examples:
+              example-1:
+                value:
+                  doctor_list:
+                    - d2dc57b4-946e-4402-81a4-a98d6b2eae88
+                  shop_guid: 1aaf4b41-5567-4c97-96a8-967e11174187
+                  duty_month: 5
+                  duty_year: 2020
 components:
   schemas:
     basic_error_response:
