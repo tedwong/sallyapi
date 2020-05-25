@@ -6,6 +6,8 @@ tags:
     description: Retrieving info regarding shops
   - name: user
     description: Retrieveing info regarding users (staff)
+  - name: doctor
+    description: Regarding personal info of doctors
   - name: duty
     description: Retrieveing info regarding duties of doctors
 info:
@@ -365,6 +367,125 @@ paths:
                   shop_guid: 1aaf4b41-5567-4c97-96a8-967e11174187
                   duty_month: 5
                   duty_year: 2020
+  /doctor:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - doctor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      doctors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            guid:
+                              type: string
+                            doctor_code:
+                              type: string
+                            full)name:
+                              type: string
+                            gender:
+                              type: string
+                            email:
+                              type: string
+                            tel:
+                              type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      doctors:
+                        - guid: 535ffa37-feea-4f55-a00a-17624b447a00
+                          doctor_code: '00002'
+                          full_name: Chan Siu Ming
+                          gender: M
+                          email: doctor02@gmail.com
+                          tel: '23457777'
+                        - guid: b9501df1-5813-4284-a7de-9d1b3dfbb26a
+                          doctor_code: doctor_code_02
+                          full_name: Cheung Tai Man
+                          gender: F
+                          email: doctor02@gmail.com
+                          tel: '23456666'
+                        - guid: d2dc57b4-946e-4402-81a4-a98d6b2eae88
+                          doctor_code: '00001'
+                          full_name: Wong Ying Jai
+                          gender: M
+                          email: doctor01@gmail.com
+                          tel: '23457778'
+      operationId: get-doctor
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      description: Get all doctors
+    post:
+      summary: ''
+      operationId: post-doctor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+      description: Create doctor
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                doctor_code:
+                  type: string
+                email:
+                  type: string
+                tel:
+                  type: string
+                gender:
+                  type: string
+              required:
+                - full_name
+                - doctor_code
+                - email
+                - tel
+                - gender
+            examples:
+              example-1:
+                value:
+                  full_name: Wong Ying Jai
+                  doctor_code: '00001'
+                  email: doctor01@gmail.com
+                  tel: '23457778'
+                  gender: M
+      tags:
+        - doctor
 components:
   schemas:
     basic_error_response:
