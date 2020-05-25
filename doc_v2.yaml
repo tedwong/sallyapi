@@ -4,6 +4,8 @@ tags:
     description: 'Get User profile, login'
   - name: Sop
     description: The main bot engine logic
+  - name: File
+    description: Handle file upload/ download via S3
 info:
   title: doc2
   version: '1.0'
@@ -191,6 +193,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+              examples:
+                example-1-first time login and first time calling this api):
+                  value:
+                    success: true
+                    data:
+                      sop_type: greetings
+                      message:
+                        - type: text
+                          content: '請問我有什麼可以幫到你?<br>申請零用現金流程<br>填寫Monthly Order Form<br>EHR'
+                      action:
+                        - id: start_petty_cash
+                          property_id: start_petty_cash
+                          sop_type: petty_cash
+                          type: cart
+                          image: 'https://.'
+                          title: 申請零用現金流程
+                          desc: ''
+                          button: 填寫Petty Cash Report
+                          value: start_petty_cash_report
+                          next: pc25
+                        - id: start_po
+                          property_id: start_po
+                          sop_type: po
+                          type: button
+                          title: 每月訂購流程
+                          value: start_po
+                          next: po30
+                        - id: start_ehr
+                          property_id: start_ehr
+                          sop_type: ehr
+                          type: button
+                          title: 開始處理醫健通月結單
+                          value: start_ehr
+                          next: ehr30
+                example-2:
+                  value:
+                    success: true
+                    data:
+                      start: true
+                      sop_type: petty_cash
+                      message:
+                        - type: text
+                          content: 你好，請問有咩幫到你?
+                      action:
+                        - id: start_petty_cash
+                          property_id: start_petty_cash
+                          type: button
+                          title: 申請零用現金流程
+                          value: 申請零用現金流程
+                          next: pc25
+                      id: pc20
         '400':
           description: Bad Request
           content:
@@ -332,6 +385,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/sop_response'
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      start: true
+                      sop_type: petty_cash
+                      message:
+                        - type: text
+                          content: 你好，請問有咩幫到你?
+                      action:
+                        - id: start_petty_cash
+                          property_id: start_petty_cash
+                          type: button
+                          title: 申請零用現金流程
+                          value: 申請零用現金流程
+                          next: pc25
+                      id: pc20
         '400':
           description: Bad Request
           content:
@@ -501,6 +572,124 @@ paths:
           name: page
           description: page offset
       description: "Retrieving user's chat history. Should be called every time user lauching the app."
+  /file/uploadToken:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        description: The url for client side to upload the file
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      url: 'https://ijs-sally-dev.s3.ap-east-1.amazonaws.com/demo_image1.jpg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZ7VM3DDWOCT56H4B%2F20200525%2Fap-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200525T055755Z&X-Amz-Expires=900&X-Amz-Signature=cae606164579c1be3112a55e65e04b241391dd201cd03958ed10e2ff897d73c3&X-Amz-SignedHeaders=host'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
+              examples: {}
+      operationId: get-file-uploadToken
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_name:
+                  type: string
+                key:
+                  type: string
+                  description: '(Optional) unique key for retrieving the file, default key would be the file_name'
+                public_read:
+                  type: string
+                  description: ''
+              required:
+                - file_name
+            examples:
+              example-1:
+                value:
+                  file_name: demo_image1.jpg
+      description: 'Api for retrieving the S3 upload token, default expiry time is 15 mins'
+  /file/downloadToken:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        description: the url to retrive the file
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      url: 'https://ijs-sally-dev.s3.ap-east-1.amazonaws.com/test1.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZ7VM3DDWOCT56H4B%2F20200525%2Fap-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200525T061456Z&X-Amz-Expires=900&X-Amz-Signature=fabd0c42e39a2fbc071c240318f8725959be7b3c3e1e8aeb4b376fbb3d7f7c99&X-Amz-SignedHeaders=host'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/basic_error_response'
+      operationId: get-file-downloadToken
+      description: 'For retrieving S3 download token, default expiry time is 15 mins'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The unique key to the file
+              required:
+                - key
+            examples:
+              example-1:
+                value:
+                  key: test1.txt
+        description: ''
 components:
   schemas:
     sop_response:
