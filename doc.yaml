@@ -486,6 +486,76 @@ paths:
                   gender: M
       tags:
         - doctor
+  /user/all:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            staff_full_name:
+                              type: string
+                            staff_id:
+                              type: string
+                            staff_tel:
+                              type: string
+                            staff_direct_line:
+                              type: string
+                            avatar_url:
+                              type: string
+                            department:
+                              type: string
+                            shop_name:
+                              type: string
+                            shop_address:
+                              type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    users:
+                      - staff_full_name: null
+                        staff_id: null
+                        staff_tel: null
+                        staff_direct_line: null
+                        avatar_url: null
+                        department: null
+                        shop_name: Demo Clinic 700
+                        shop_address: Sham Shui Po Fuk Wa Street
+                        shop_code: '700'
+                      - staff_full_name: null
+                        staff_id: '123456'
+                        staff_tel: null
+                        staff_direct_line: '22223333'
+                        avatar_url: null
+                        department: Department 1
+                        shop_name: Demo Clinic 0
+                        shop_address: Mong Kok Fa Yuen Street
+                        shop_code: '200'
+      operationId: get-user-all
+      description: Get all users that have linked to a shop
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
 components:
   schemas:
     basic_error_response:
