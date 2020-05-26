@@ -175,6 +175,8 @@ paths:
                 device_id:
                   type: string
                   description: 'this field is used for push-notification, when client registered firebase token, can call this api to update it. Messages will be sent according to this field'
+                full_name:
+                  type: string
             examples:
               example-1:
                 value:
