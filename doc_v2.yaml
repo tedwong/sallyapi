@@ -548,6 +548,94 @@ paths:
                           chat_type: text
                           create_date: '2020-05-21 18:40:32'
                           create_by: bot
+                example-2(with file):
+                  value:
+                    success: true
+                    data:
+                      total_length: 138
+                      page_size: 20
+                      page: 0
+                      history:
+                        - content: 請問是否已經下載IVSS?
+                          chat_type: text
+                          create_date: '2020-05-26 12:52:36'
+                          create_by: bot
+                        - content: Okay~收到
+                          chat_type: text
+                          create_date: '2020-05-26 12:52:35'
+                          create_by: bot
+                        - content: 'https://ijs-sally-dev.s3.ap-east-1.amazonaws.com/test1.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZ7VM3DDWOCT56H4B%2F20200526%2Fap-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200526T060548Z&X-Amz-Expires=900&X-Amz-Signature=a653a73b14c7ed914e8555d82185ca99d985de39a7a0e1946481b2bfbfd01387&X-Amz-SignedHeaders=host'
+                          chat_type: attachment
+                          create_date: '2020-05-26 12:52:35'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請上傳HCV月結單
+                          chat_type: text
+                          create_date: '2020-05-26 12:51:51'
+                          create_by: bot
+                        - content: 已核對
+                          chat_type: text
+                          create_date: '2020-05-26 12:51:51'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請問是否已核對HCV月結單與客戶確認書(Voucher)內容相符，並完整的保存?
+                          chat_type: text
+                          create_date: '2020-05-26 12:51:34'
+                          create_by: bot
+                        - content: 已經下載
+                          chat_type: text
+                          create_date: '2020-05-26 12:51:34'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 請問是否已經下載HCV？
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:53'
+                          create_by: bot
+                        - content: 首先我們要先登入醫健通系統
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:53'
+                          create_by: bot
+                        - content: 現在先處理Cheung Tai Man的月結單
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:53'
+                          create_by: bot
+                        - content: Cheung Tai Man
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:53'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 根據更表，本月需要處理的醫生月結單有：
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:21'
+                          create_by: bot
+                        - content: 開始處理醫健通月結單
+                          chat_type: text
+                          create_date: '2020-05-26 12:50:21'
+                          create_by: 4449da4c-4ac0-4905-8113-797f2aae4e25
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-26 12:49:36'
+                          create_by: bot
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-26 10:27:23'
+                          create_by: bot
+                        - content: 你好，請問有咩幫到你?
+                          chat_type: text
+                          create_date: '2020-05-25 17:51:08'
+                          create_by: bot
+                        - content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+                          chat_type: text
+                          create_date: '2020-05-25 17:47:29'
+                          create_by: bot
+                        - content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+                          chat_type: text
+                          create_date: '2020-05-22 14:59:18'
+                          create_by: bot
+                        - content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+                          chat_type: text
+                          create_date: '2020-05-22 14:58:44'
+                          create_by: bot
+                        - content: 閣下的本月的Petty Cash Report已填報，請按以下連結查看
+                          chat_type: text
+                          create_date: '2020-05-22 14:01:26'
+                          create_by: bot
         '400':
           description: Bad Request
           content:
