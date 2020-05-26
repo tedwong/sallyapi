@@ -172,6 +172,9 @@ paths:
                   type: string
                 avatar_url:
                   type: string
+                device_id:
+                  type: string
+                  description: 'this field is used for push-notification, when client registered firebase token, can call this api to update it. Messages will be sent according to this field'
             examples:
               example-1:
                 value:
@@ -778,6 +781,99 @@ paths:
                 value:
                   key: test1.txt
         description: ''
+  /user/notification:
+    get:
+      summary: Your GET endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            message_code:
+                              type: string
+                            message_hk:
+                              type: string
+                            message_en:
+                              type: string
+                            sop_type:
+                              type: string
+                            create_date:
+                              type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      message:
+                        - message_code: '0002'
+                          message_hk: 請提交本月份的醫健通報告
+                          message_en: null
+                          sop_type: ehr
+                          create_date: '2020-05-26 15:28:09'
+                        - message_code: '0002'
+                          message_hk: 請提交本月份的醫健通報告
+                          message_en: null
+                          sop_type: ehr
+                          create_date: '2020-05-21 18:15:12'
+                        - message_code: '0001'
+                          message_hk: 請提交本月份的每月訂購報告
+                          message_en: null
+                          sop_type: po
+                          create_date: '2020-05-26 15:28:44'
+                        - message_code: '0000'
+                          message_hk: 請提交本月份的零用現金報告
+                          message_en: null
+                          sop_type: petty_cash
+                          create_date: '2020-05-21 18:15:12'
+                        - message_code: '0001'
+                          message_hk: 請提交本月份的每月訂購報告
+                          message_en: null
+                          sop_type: po
+                          create_date: '2020-05-21 18:15:12'
+                        - message_code: '0002'
+                          message_hk: 請提交本月份的醫健通報告
+                          message_en: null
+                          sop_type: ehr
+                          create_date: '2020-05-26 15:28:44'
+                        - message_code: '0002'
+                          message_hk: 請提交本月份的醫健通報告
+                          message_en: null
+                          sop_type: ehr
+                          create_date: '2020-05-26 15:34:16'
+                        - message_code: '0001'
+                          message_hk: 請提交本月份的每月訂購報告
+                          message_en: null
+                          sop_type: po
+                          create_date: '2020-05-26 15:34:16'
+                        - message_code: '0001'
+                          message_hk: 請提交本月份的每月訂購報告
+                          message_en: null
+                          sop_type: po
+                          create_date: '2020-05-26 15:28:09'
+      operationId: get-user-notification
+      description: User get all the notifications that have received before
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: token
+          description: login token
+          required: true
+      tags:
+        - User
 components:
   schemas:
     sop_response:
