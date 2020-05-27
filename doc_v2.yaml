@@ -149,7 +149,7 @@ paths:
                 properties:
                   success:
                     type: boolean
-      description: "Edit user's profile"
+      description: "Edit user's profile. For updating avatar icon, call the /file/uploadToken api and upload the image to S3, then call this /user/profile api to upload the file KEY."
       tags:
         - User
       requestBody:
@@ -186,6 +186,7 @@ paths:
                   tel: '66667777'
                   direct_line: '22223334'
                   department: Department 1
+                  avatar_url: file_key_from_s3
   /sop/current:
     get:
       summary: Your GET endpoint
