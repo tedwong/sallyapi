@@ -905,6 +905,8 @@ components:
           type: string
         data:
           type: object
+          required:
+            - message
           properties:
             message:
               type: array
@@ -926,6 +928,9 @@ components:
                     type: string
                   type:
                     type: string
+                    enum:
+                      - button
+                      - attachment
                   image:
                     type: string
                   title:
@@ -943,10 +948,23 @@ components:
                   - property_id
                   - type
                   - next
-            '':
-              type: string
             end:
               type: boolean
+            create_new_item:
+              type: boolean
+              description: 'this is a flag set in the question , for backend use'
+            upload_hard_copy:
+              type: boolean
+              description: 'this is a flag set in the question , for backend use'
+            start:
+              type: boolean
+              description: 'this is a flag set in the question , for backend use'
+            sync_report_data:
+              type: boolean
+              description: 'this is a flag set in the question , for backend use'
+      required:
+        - success
+        - data
     basic_error_response:
       title: basic_error_response
       type: object
