@@ -15,4 +15,4 @@ https://chrome.google.com/webstore/detail/swagger-viewer/nfmkaonpdmaglhjjlggfhln
   ii. create the shop, with pic_guid = the guid of the newly created user
   iii. update user's information : PATCH /api/user/profile
  
-3. Before a mobile user can call the SOP step api (get current step/ proceed step in doc.yaml), the admin must have already assigned the doctor's duty of the current month.
+3. Before a mobile user can call the SOP step api (get current step/ proceed step in doc_v2.yaml), the admin must have already assigned the doctor's duty of the current month (doc.yaml).
