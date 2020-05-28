@@ -659,8 +659,20 @@ paths:
                         items:
                           type: object
                           properties:
-                            report_url:
-                              type: string
+                            reports:
+                              type: array
+                              description: could be null
+                              items:
+                                type: object
+                                properties:
+                                  doctor_name:
+                                    type: string
+                                  hcv:
+                                    type: string
+                                  ivss:
+                                    type: string
+                                  crc:
+                                    type: string
                             sop_month:
                               type: string
                             sop_year:
@@ -712,23 +724,6 @@ components:
       type: object
       x-tags:
         - shop
-      properties:
-        pic_guid:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        district:
-          type: string
-        address:
-          type: string
-        tel:
-          type: string
-        desc:
-          type: string
-        default_receiver:
-          type: string
       x-examples:
         example-1:
           pic_guid: 9b1b15c4-83d0-44f0-8112-104ae92939de
@@ -740,6 +735,32 @@ components:
           desc: Desc desc
           default_receiver: 9b1b15c4-83d0-44f0-8112-104ae92939de
       description: ''
+      properties:
+        pic_guid:
+          type: string
+          description: id of the staff (user)
+        code:
+          type: string
+          description: shop code
+        name:
+          type: string
+          description: shop name
+        district:
+          type: string
+        address:
+          type: string
+        tel:
+          type: string
+        desc:
+          type: string
+        default_receiver:
+          type: string
+        pic_name:
+          type: string
+          description: staff name
+        guid:
+          type: string
+          description: the id of the shop
   securitySchemes:
     petstore_auth:
       type: oauth2
